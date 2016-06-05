@@ -47,7 +47,7 @@ module Parse
       response = client.request(
           Parse::Protocol.user_uri, :post, nil, data.to_json)
       client.session_token = response[Parse::Protocol::KEY_USER_SESSION_TOKEN]
-      self.authData = response["authData"]
+      @authData = response["authData"]
       super(response, client)
     end
   end
