@@ -42,7 +42,7 @@ module Parse
 
   class Oauth < User
     attr_reader :authData
-    def initialize(data)
+    def initialize(data, client)
       client ||= Parse.client
       response = client.request(
           Parse::Protocol.user_uri, :post, nil, data.to_json)
