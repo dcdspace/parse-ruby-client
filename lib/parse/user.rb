@@ -39,4 +39,16 @@ module Parse
       Protocol.user_uri @parse_object_id
     end
   end
+
+  class Oauth < User
+    attr_reader :authData
+    def initialize(data)
+      client ||= Parse.client
+      response = client.request(
+          Parse::Protocol.user_uri, :post, nil, data.to_json)
+      client.session_token = response[Parse::Protocol::KEY_USER_SESSION_TOKEN]
+      self.authData = response["authData"]
+      super(response, client)
+    end
+  end
 end
