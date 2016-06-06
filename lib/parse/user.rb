@@ -44,10 +44,12 @@ module Parse
     attr_reader :authData
     def initialize(data, client)
       client ||= Parse.client
+      authData = {"authData" => data}
       response = client.request(
-          Parse::Protocol.user_uri, :post, nil, data.to_json)
+          Parse::Protocol.user_uri, :post, nil, authData.to_json)
       client.session_token = response[Parse::Protocol::KEY_USER_SESSION_TOKEN]
-      @authData = response["authData"]
+      @authData = data
+      response["authData"] = data.to_json
       super(response, client)
     end
   end
